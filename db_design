@@ -1,0 +1,15 @@
+cards:
+    id: int(11); a_i; pkey
+    timestamp: timestamp; current_timestamp
+    name: varchar(50)
+    mana: varchar(15)
+    rarity: enum('common', 'uncommon', 'rare', 'mythic_rare')
+    in_deck: enum('yes', 'no')
+    image: varchar(100)
+    text: varchar(500)
+
+decks:
+    id: int(11); a_i; pkey
+    timestamp: timestamp, current_timestamp
+    format: enum('standard', 'modern', 'commander')
+    name: varchar(50)
