@@ -13,3 +13,4 @@ decks:
     timestamp: timestamp, current_timestamp
     format: enum('standard', 'modern', 'commander')
     name: varchar(50)
+    cards: varchar(600)
