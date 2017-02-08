@@ -26,4 +26,7 @@ class PlatesController {
 		return self::getInstance()->render($template, $args);
 	}
 
+	public static function makeTemplate($template) {
+		return self::getInstance()->make($template);
+	}
 }
