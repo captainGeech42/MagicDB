@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 3306, host: 3306
 
+  # install server software
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y apache2
@@ -24,8 +25,15 @@ Vagrant.configure("2") do |config|
     echo '<?php phpinfo(); ?>' | tee /var/www/html/info.php
   SHELL
 
+  # secure mysql installation
   config.vm.provision "shell" do |s|
     s.path = "mysql_secure.sh"
     s.args = DB_PASS
   end
+
+  # initalize database
+  config.vm.provision "file", source: "magicdb_init.sql", destination: "~/magicdb_init.sql"
+  config.vm.provision "shell", inline: <<-SHELL
+    mysql -u root -p #{DB_PASS} < /home/vagrant/magicdb_init.sql
+    rm /home/vagrant/magicdb_init.sql
 end
