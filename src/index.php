@@ -6,5 +6,5 @@
 require_once('Database.php');
 require_once('PlatesController.php');
 
-echo \PlatesController::renderTemplate('home', ['name' => 'zander']);
+echo \PlatesController::renderTemplate('index');
 ?>
