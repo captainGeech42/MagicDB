@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`decks` (
 	`format`    ENUM ('standard', 'modern', 'commander') NOT NULL,
 	`name`      VARCHAR(50)                              NOT NULL,
 	`cards`     VARCHAR(600)                             NOT NULL
-	COMMENT 'csv of card ids',
+	COMMENT 'csv of card ids, put commander id first (if applicable)',
 	PRIMARY KEY (`id`)
 )
 	ENGINE = INNODB;
