@@ -1,6 +1,6 @@
-CREATE DATABASE `magic`;
+CREATE DATABASE IF NOT EXISTS `magic`;
 
-CREATE TABLE `magic`.`cards` (
+CREATE TABLE IF NOT EXISTS `magic`.`cards` (
 	`id`        INT(11)                                            NOT NULL AUTO_INCREMENT,
 	`timestamp` TIMESTAMP                                          NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`name`      VARCHAR(50)                                        NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `magic`.`cards` (
 )
 	ENGINE = INNODB;
 
-CREATE TABLE `magic`.`decks` (
+CREATE TABLE IF NOT EXISTS `magic`.`decks` (
 	`id`        INT(11)                                  NOT NULL AUTO_INCREMENT,
 	`timestamp` TIMESTAMP                                NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`format`    ENUM ('standard', 'modern', 'commander') NOT NULL,
@@ -25,3 +25,37 @@ CREATE TABLE `magic`.`decks` (
 	PRIMARY KEY (`id`)
 )
 	ENGINE = INNODB;
+
+-- the next set of queries are for test data population, remove these lines and reinstantiate
+-- the database once testing has concluded and real data is being added to the database
+
+INSERT INTO `magic`.`cards` (name, mana, rarity, in_deck, image, text) VALUES (
+	'ragnaros',
+	'5g1o',
+	'mythic_rare',
+	'no',
+	'none/',
+	'best card from not innistrad'
+);
+
+INSERT INTO `magic`.`cards` (name, mana, rarity, in_deck, image, text) VALUES (
+	'murloc',
+	'1b1o',
+	'common',
+	'no',
+	'none/',
+	'most powerful card known to man'
+);
+
+INSERT INTO `magic`.`decks` (format, name, cards) VALUES (
+	'standard',
+	'intentionally illegal standard deck',
+	'1'
+);
+
+INSERT INTO `magic`.`decks` (format, name, cards) VALUES (
+	'commander',
+	'intentionally illegal commander deck',
+	'1,2'
+);
+
