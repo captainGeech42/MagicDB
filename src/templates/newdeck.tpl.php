@@ -1,1 +1,1 @@
-<?php $this->layout('pageLayout', ['title' => 'MagicDB | Home']) ?>
+<?php $this->layout('pageLayout', ['title' => 'MagicDB | New Deck']) ?>

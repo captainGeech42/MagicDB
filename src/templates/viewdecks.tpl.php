@@ -1,4 +1,4 @@
-<?php $this->layout('pageLayout', ['title' => 'MagicDB | Home']) ?>
+<?php $this->layout('pageLayout', ['title' => 'MagicDB | View Decks']) ?>
 
 <table cellpadding="3">
 	<tr align="center">

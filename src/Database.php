@@ -47,4 +47,9 @@ class Database {
 		$stmt = self::runSql('SELECT format, name, cards FROM decks WHERE id = ?', [$id]);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
+
+	public static function addCard($name, $mana, $rarity, $image, $text) {
+		self::runSql('INSERT INTO cards (name, mana, rarity, in_deck, image, text) VALUES (?, ?, ?, \'no\', ?, ?)',
+					 [$name, $mana, $rarity, $image, $text]);
+	}
 }

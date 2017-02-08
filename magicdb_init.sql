@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`decks` (
 
 INSERT INTO `magic`.`cards` (name, mana, rarity, in_deck, image, text) VALUES (
 	'ragnaros',
-	'5g1o',
+	'3BW',
 	'mythic_rare',
 	'no',
 	'none/',
@@ -40,7 +40,7 @@ INSERT INTO `magic`.`cards` (name, mana, rarity, in_deck, image, text) VALUES (
 
 INSERT INTO `magic`.`cards` (name, mana, rarity, in_deck, image, text) VALUES (
 	'murloc',
-	'1b1o',
+	'1WW',
 	'common',
 	'no',
 	'none/',
