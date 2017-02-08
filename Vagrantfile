@@ -33,7 +33,6 @@ Vagrant.configure("2") do |config|
 
   # initalize database
   config.vm.provision "file", source: "magicdb_init.sql", destination: "~/magicdb_init.sql"
-  config.vm.provision "shell", inline: <<-SHELL
-    mysql -u root -p #{DB_PASS} < /home/vagrant/magicdb_init.sql
-    rm /home/vagrant/magicdb_init.sql
+  config.vm.provision "shell", inline: "mysql -uroot -p#{DB_PASS} < /home/vagrant/magicdb_init.sql"
+  config.vm.provision "shell", inline: "rm /home/vagrant/magicdb_init.sql"
 end
