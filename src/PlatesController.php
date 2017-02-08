@@ -17,7 +17,7 @@ class PlatesController {
 
 	public static function getInstance() {
 		if (self::$templates === NULL) {
-			self::$templates = new \League\Plates\Engine(TEMPLATE_DIR);
+			self::$templates = new \League\Plates\Engine(TEMPLATE_DIR, 'tpl.php');
 		}
 		return self::$templates;
 	}
