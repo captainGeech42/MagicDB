@@ -1,0 +1,8 @@
+{
+  "require": {
+	"league/plates": "3.*"
+  },
+  "config": {
+	"vendor-dir": "src/vendor"
+  }
+}
