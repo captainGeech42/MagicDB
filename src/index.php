@@ -5,7 +5,6 @@
 
 require_once('Database.php');
 require_once('PlatesController.php');
-require_once('vendor/autoload.php');
 
-echo PlatesController::renderTemplate('home');
+echo \PlatesController::renderTemplate('home', ['name' => 'zander']);
 ?>
