@@ -6,5 +6,7 @@
 require_once('Database.php');
 require_once('PlatesController.php');
 
-echo \PlatesController::renderTemplate('viewdecks');
+$decks = Database::getDecks();
+
+echo \PlatesController::renderTemplate('viewdecks', ['decks' => $decks]);
 ?>
