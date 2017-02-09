@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS `magic`.`cards` (
 	`name`      VARCHAR(50)                                        NOT NULL,
 	`mana`      VARCHAR(15)                                        NOT NULL,
 	`rarity`    ENUM ('common', 'uncommon', 'rare', 'mythic_rare') NOT NULL,
-	`in_deck`   ENUM ('yes', 'no')                                 NOT NULL,
+	`in_deck`   ENUM ('yes', 'no')                                 NOT NULL DEFAULT 'no',
 	`image`     VARCHAR(100)                                       NOT NULL
-	COMMENT 'relative path from webroot to card front image',
+	COMMENT 'full url to magicinfo card image',
 	`text`      VARCHAR(500)                                       NOT NULL
 	COMMENT 'card text',
 	PRIMARY KEY (`id`)

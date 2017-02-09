@@ -49,7 +49,7 @@ class Database {
 	}
 
 	public static function addCard($name, $mana, $rarity, $image, $text) {
-		self::runSql('INSERT INTO cards (name, mana, rarity, in_deck, image, text) VALUES (?, ?, ?, \'no\', ?, ?)',
+		self::runSql('INSERT INTO cards (name, mana, rarity, image, text) VALUES (?, ?, ?, ?, ?)',
 					 [$name, $mana, $rarity, $image, $text]);
 	}
 }
