@@ -8,5 +8,6 @@
 		<li><a href="viewdecks.php">View All Decks</a></li>
 		<li><a href="newcard.php">Add a New Card</a></li>
 		<li><a href="newdeck.php">Make a New Deck</a></li>
+		<li><a href="cardlookup.php">Lookup a card on MagicInfo</a></li>
 	</ul>
 </p>
