@@ -91,99 +91,96 @@ class CardScraper {
 
 						//TODO IMPORTANT: THIS ONLY WORKS FOR CREATURE CARDS RIGHT NOW, EVENTUALLY IT WILL BE EXPANDED TO ALL
 
-						//get the row
-						$td = $domXpath->query('//td[@valign="top" and @style="padding: 0.5em;" and @width="70%"]', $table);
-//						echo 'td length: ' . $td->length . '<br>';
+						switch($this->cardType) {
+							case CARDTYPE_CREATURE:
+								//get the row
+								$td = $domXpath->query('//td[@valign="top" and @style="padding: 0.5em;" and @width="70%"]', $table);
 
-						$nameNodeList = $domXpath->query('span[@style="font-size: 1.5em;"]/a', $td->item(0));
-						$this->name = $nameNodeList->item(0)->nodeValue;
-//						echo "\$this->name = " . $this->name . '<br>';
+								$nameNodeList = $domXpath->query('span[@style="font-size: 1.5em;"]/a', $td->item(0));
+								$this->name = $nameNodeList->item(0)->nodeValue;
 
-						$infoComboLineNodeList = $domXpath->query('p', $td->item(0));
-						$infoComboLine = $infoComboLineNodeList->item(0)->nodeValue;
+								$infoComboLineNodeList = $domXpath->query('p', $td->item(0));
+								$infoComboLine = $infoComboLineNodeList->item(0)->nodeValue;
 
-						$infoComboLineCommaSplit = explode(',', $infoComboLine);
-						//[0] is name and p/t, [1] is mana and a (seemingly) random number in parantheses that we don't care about
-						//[0]=Creature — Human Monk */*
-						//[1]=3WW (5)
+								$infoComboLineCommaSplit = explode(',', $infoComboLine);
+								//[0] is name and p/t, [1] is mana and a (seemingly) random number in parantheses that we don't care about
+								//[0]=Creature — Human Monk */*
+								//[1]=3WW (5)
 
-						$this->mana = explode(' ', trim($infoComboLineCommaSplit[1]))[0];
-//						echo "\$this->mana = " . $this->mana . '<br>';
+								$this->mana = explode(' ', trim($infoComboLineCommaSplit[1]))[0];
 
-						if (strpos($infoComboLineCommaSplit[0], '*') !== false) {
-							//card has indefinite p/t, so we know the length of p/t
-//							echo 'card has indefinite p/t<br>';
-							$this->pt = '*/*';
-							$this->typeline = substr($infoComboLineCommaSplit[0], 0, strlen($infoComboLineCommaSplit[0]) - 4);
-						} else {
-							//card has definite p/t, unknown length
-//							echo 'card has definite p/t [' . $infoComboLineCommaSplit[0] . ']<br>';
-							$split = explode(' ', $infoComboLineCommaSplit[0]);
-							$this->pt = array_pop($split);
-							$typeline = '';
-							foreach($split as $word) {
-								$typeline .= $word . ' ';
-							}
-							$this->typeline = $typeline;
-						}
-						$this->typeline = str_replace('—',  '--', $this->typeline);
-
-//						echo "\$this->pt = " . $this->pt . '<br>';
-//						echo "\$this->typeline = " . $this->typeline . '<br>';
-
-						$ctextNode = $domXpath->query('p[@class="ctext"]', $td->item(0))->item(0)->nodeValue;
-
-						//split on space
-						//foreach, split on ''
-						//foreach, if there are more than one capital letter, put a <br>x2 in
-						$ctextsplit = explode(' ', $ctextNode);
-						$ctextarraycounter = 0;
-
-						//TODO issue: mulitple keywords on one line don't follow the capitalization assumption:
-						//newcard.php?set=isd&id=13
-						//possible solution: have an array of all possible keywords, check if any of them are present in $word
-
-						foreach ($ctextsplit as $word) {
-							$capitalCounter = 0;
-							$offset = -1;
-							$previousChar = null;
-							foreach (str_split($word) as $char) {
-								$offset++;
-								if (ctype_upper($char)) {
-									$capitalCounter++;
-								}
-								if ($capitalCounter > 1) {
-									//there have been two capitals since the last inserted line break
-									if ($previousChar != null) {
-										//this isn't the first letter
-										//it shouldn't be possible for this check to fail, but better safe than sorry
-										if ($previousChar !== '-') {
-											//if the last character was a -, we don't want a linebreak,
-											//because Geist-Honored can be one line
-											$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
-										}
+								if (strpos($infoComboLineCommaSplit[0], '*') !== false) {
+									//card has indefinite p/t, so we know the length of p/t
+									$this->pt = '*/*';
+									$this->typeline = substr($infoComboLineCommaSplit[0], 0, strlen($infoComboLineCommaSplit[0]) - 4);
+								} else {
+									//card has definite p/t, unknown length
+									$split = explode(' ', $infoComboLineCommaSplit[0]);
+									$this->pt = array_pop($split);
+									$typeline = '';
+									foreach($split as $word) {
+										$typeline .= $word . ' ';
 									}
+									$this->typeline = $typeline;
+								}
+								$this->typeline = str_replace('—',  '--', $this->typeline);
+
+								$ctextNode = $domXpath->query('p[@class="ctext"]', $td->item(0))->item(0)->nodeValue;
+
+								//split on space
+								//foreach, split on ''
+								//foreach, if there are more than one capital letter, put a <br>x2 in
+								$ctextsplit = explode(' ', $ctextNode);
+								$ctextarraycounter = 0;
+
+								//TODO issue: mulitple keywords on one line don't follow the capitalization assumption:
+								//cardlookup.php?set=isd&id=13
+								//possible solution: have an array of all possible keywords, check if any of them are present in $word
+
+								foreach ($ctextsplit as $word) {
 									$capitalCounter = 0;
+									$offset = -1;
+									$previousChar = null;
+									foreach (str_split($word) as $char) {
+										$offset++;
+										if (ctype_upper($char)) {
+											$capitalCounter++;
+										}
+										if ($capitalCounter > 1) {
+											//there have been two capitals since the last inserted line break
+											if ($previousChar != null) {
+												//this isn't the first letter
+												//it shouldn't be possible for this check to fail, but better safe than sorry
+												if ($previousChar !== '-') {
+													//if the last character was a -, we don't want a linebreak,
+													//because Geist-Honored can be one line
+													$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
+												}
+											}
+											$capitalCounter = 0;
+										}
+										if ($previousChar === '.') {
+											//we hit the end of a sentence. it is most likely now a new line
+											$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
+
+											//TODO period inside a parenthese suoldn't trigger a new line.
+											//Disregarding this example is an instant, this may be an issue:
+											//cardlookup.php?set=isd&id=13
+										}
+										$previousChar = $char;
+									}
+									$ctextarraycounter++;
 								}
-								if ($previousChar === '.') {
-									//we hit the end of a sentence. it is most likely now a new line
-									$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
 
-									//TODO period inside a parenthese suoldn't trigger a new line.
-									//Disregarding this example is an instant, this may be an issue:
-									//newcard.php?set=isd&id=13
+								//recombine the card text
+								foreach ($ctextsplit as $word) {
+									$this->cardText .= $word . ' ';
 								}
-								$previousChar = $char;
-							}
-							$ctextarraycounter++;
+								break;
+							case CARDTYPE_ARTIFACT:
+								
+								break;
 						}
-
-						//recombine the card text
-						foreach ($ctextsplit as $word) {
-							$this->cardText .= $word . ' ';
-						}
-
-//						echo "\$this->cardtext = " . '<br>' . $this->cardText . '<br>';
 
 						//we did the only table we care about, no need to continue the loop
 						break;
