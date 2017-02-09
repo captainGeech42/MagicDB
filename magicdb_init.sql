@@ -54,9 +54,7 @@ INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity,
 	'isd',
 	17,
 	'rare',
-	'Vigilance <br><br>
-	Geist-Honored Monk''s power and toughness are each equal to the number of creatures you control. <br><br>
-	When Geist-Honored Monk enters the battlefield, put two 1/1 white Spirit creature tokens with flying onto the battlefield.',
+	'Vigilance <br><br>Geist-Honored Monk''s power and toughness are each equal to the number of creatures you control. <br><br>When Geist-Honored Monk enters the battlefield, put two 1/1 white Spirit creature tokens with flying onto the battlefield.',
 	'http://magiccards.info/scans/en/isd/17.jpg',
 	'no'
 );
