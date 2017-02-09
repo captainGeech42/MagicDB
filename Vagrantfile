@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y apache2
     DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server php5-mysql
     mysql_install_db
-    apt-get install -y php5 libapache2-mod-php5 php5-mcrypt php5-cli
+    apt-get install -y php5 libapache2-mod-php5 php5-mcrypt php5-cli php5-curl
     echo '<?php phpinfo(); ?>' | tee /var/www/html/info.php
   SHELL
 
