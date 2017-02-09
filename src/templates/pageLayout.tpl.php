@@ -5,6 +5,10 @@
 </head>
 <body>
 
+<?php if (strcmp($this->e($title), 'MagicDB | Home') !== 0): ?>
+	<a href="index.php">Return Home</a><br><br>
+<?php endif ?>
+
 <?=$this->section('content')?>
 
 </body>

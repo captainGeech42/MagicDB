@@ -4,7 +4,10 @@
  * Created by Zander Work on 2/7/2017 11:29 PM.
  */
 
-define('CARDTYPE_CREATURE', 1);
+define('CARDTYPE_BASIC_LAND', 0);
+define('CARDTYPE_LAND', 1);
+define('CARDTYPE_CREATURE', 2);
+define('CARDTYPE_ARTIFACT', 3);
 //TODO add more card types
 
 class CardScraper {
@@ -13,23 +16,34 @@ class CardScraper {
 	private $typeline; //Creature -- Human Monk
 	private $mana; //3WW
 	private $pt; //*/* or 5/3 or (maybe) 15/100
-	private $cardtext = ''; //Lots of long text
+	private $cardText = ''; //Lots of long text
 	private $number; //17 (in xxx/yyy on bottom of a card, this is the xxx)
-	private $set; //ISD
-	private $type; //corresponding integer to type of card (see top of file)
+	private $setName; //ISD
+	private $cardType; //corresponding integer to type of card (see top of file)
 
-	public function __construct($number, $set, $type) {
+	public function __construct($number, $set, $cardType) {
 		$this->number = $number;
-		$this->set = $set;
-		$this->type = $type;
-	}
-
-	private function getCardInfoURL() {
-		return sprintf("http://magiccards.info/%s/en/%s.html", $this->set, $this->number);
+		$this->setName = $set;
+		$this->cardType = $cardType;
 	}
 
 	public function getCardImageURL() {
-		return sprintf("http://magiccards.info/scans/en/%s/%s.jpg", $this->set, $this->number);
+		return sprintf("http://magiccards.info/scans/en/%s/%s.jpg", strtolower($this->setName), $this->number);
+	}
+
+	private function getCardInfoURL() {
+		return sprintf("http://magiccards.info/%s/en/%s.html", strtolower($this->setName), $this->number);
+	}
+
+	public function getCardInfo() {
+		return ['name' => $this->name,
+				'typeline' => $this->typeline,
+				'mana' => $this->mana,
+				'pt' => $this->pt,
+				'cardtext' => $this->cardText,
+				'number' => $this->number,
+				'setName' => $this->setName,
+				'cardType' => $this->cardType];
 	}
 
 	private function getHTML($url) {
@@ -40,7 +54,7 @@ class CardScraper {
 		$htmlData = curl_exec($curl);
 
 		if ($htmlData) {
-			echo 'got valid HTML data from curl<br>';
+//			echo 'got valid HTML data from curl<br>';
 			return $htmlData;
 		} else {
 			echo 'got invalid HTML data from curl<br>';
@@ -49,7 +63,7 @@ class CardScraper {
 	}
 
 	public function scrapCardInfo() {
-		if ($this->type != 1) {
+		if ($this->cardType != 2) {
 			echo 'invalid card type given. only creatures are currently supported. <br>';
 			return false;
 		}
@@ -79,11 +93,11 @@ class CardScraper {
 
 						//get the row
 						$td = $domXpath->query('//td[@valign="top" and @style="padding: 0.5em;" and @width="70%"]', $table);
-						echo 'td length: ' . $td->length . '<br>';
+//						echo 'td length: ' . $td->length . '<br>';
 
 						$nameNodeList = $domXpath->query('span[@style="font-size: 1.5em;"]/a', $td->item(0));
 						$this->name = $nameNodeList->item(0)->nodeValue;
-						echo "\$this->name = " . $this->name . '<br>';
+//						echo "\$this->name = " . $this->name . '<br>';
 
 						$infoComboLineNodeList = $domXpath->query('p', $td->item(0));
 						$infoComboLine = $infoComboLineNodeList->item(0)->nodeValue;
@@ -94,16 +108,16 @@ class CardScraper {
 						//[1]=3WW (5)
 
 						$this->mana = explode(' ', trim($infoComboLineCommaSplit[1]))[0];
-						echo "\$this->mana = " . $this->mana . '<br>';
+//						echo "\$this->mana = " . $this->mana . '<br>';
 
 						if (strpos($infoComboLineCommaSplit[0], '*') !== false) {
 							//card has indefinite p/t, so we know the length of p/t
-							echo 'card has indefinite p/t<br>';
+//							echo 'card has indefinite p/t<br>';
 							$this->pt = '*/*';
 							$this->typeline = substr($infoComboLineCommaSplit[0], 0, strlen($infoComboLineCommaSplit[0]) - 4);
 						} else {
 							//card has definite p/t, unknown length
-							echo 'card has definite p/t [' . $infoComboLineCommaSplit[0] . ']<br>';
+//							echo 'card has definite p/t [' . $infoComboLineCommaSplit[0] . ']<br>';
 							$split = explode(' ', $infoComboLineCommaSplit[0]);
 							$this->pt = array_pop($split);
 							$typeline = '';
@@ -114,8 +128,8 @@ class CardScraper {
 						}
 						$this->typeline = str_replace('—',  '--', $this->typeline);
 
-						echo "\$this->pt = " . $this->pt . '<br>';
-						echo "\$this->typeline = " . $this->typeline . '<br>';
+//						echo "\$this->pt = " . $this->pt . '<br>';
+//						echo "\$this->typeline = " . $this->typeline . '<br>';
 
 						$ctextNode = $domXpath->query('p[@class="ctext"]', $td->item(0))->item(0)->nodeValue;
 
@@ -166,10 +180,10 @@ class CardScraper {
 
 						//recombine the card text
 						foreach ($ctextsplit as $word) {
-							$this->cardtext .= $word . ' ';
+							$this->cardText .= $word . ' ';
 						}
 
-						echo "\$this->cardtext = " . '<br>' . $this->cardtext . '<br>';
+//						echo "\$this->cardtext = " . '<br>' . $this->cardText . '<br>';
 
 						//we did the only table we care about, no need to continue the loop
 						break;
