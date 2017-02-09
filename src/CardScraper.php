@@ -10,7 +10,7 @@ define('CARDTYPE_CREATURE', 1);
 class CardScraper {
 
 	private $name; //Geist-Honored Monk
-	private $typeline; //Creature - Human Monk
+	private $typeline; //Creature -- Human Monk
 	private $mana; //3WW
 	private $pt; //*/* or 5/3 or (maybe) 15/100
 	private $cardtext = ''; //Lots of long text
@@ -125,6 +125,10 @@ class CardScraper {
 						$ctextsplit = explode(' ', $ctextNode);
 						$ctextarraycounter = 0;
 
+						//TODO issue: mulitple keywords on one line don't follow the capitalization assumption:
+						//newcard.php?set=isd&id=13
+						//possible solution: have an array of all possible keywords, check if any of them are present in $word
+
 						foreach ($ctextsplit as $word) {
 							$capitalCounter = 0;
 							$offset = -1;
@@ -140,7 +144,8 @@ class CardScraper {
 										//this isn't the first letter
 										//it shouldn't be possible for this check to fail, but better safe than sorry
 										if ($previousChar !== '-') {
-											//if the last character was a -, we don't want a linebreak, because Geist-Honored can be one line
+											//if the last character was a -, we don't want a linebreak,
+											//because Geist-Honored can be one line
 											$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
 										}
 									}
@@ -149,6 +154,10 @@ class CardScraper {
 								if ($previousChar === '.') {
 									//we hit the end of a sentence. it is most likely now a new line
 									$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
+
+									//TODO period inside a parenthese suoldn't trigger a new line.
+									//Disregarding this example is an instant, this may be an issue:
+									//newcard.php?set=isd&id=13
 								}
 								$previousChar = $char;
 							}

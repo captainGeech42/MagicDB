@@ -7,7 +7,7 @@ require_once('Database.php');
 require_once('PlatesController.php');
 require_once('CardScraper.php');
 
-$cardScraper = new CardScraper(17, "isd", CARDTYPE_CREATURE);
+$cardScraper = new CardScraper($_GET['id'], $_GET['set'], CARDTYPE_CREATURE);
 $image = $cardScraper->getCardImageURL();
 
 echo \PlatesController::renderTemplate('newcard', ['image' => $image]);
