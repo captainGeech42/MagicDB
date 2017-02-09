@@ -74,5 +74,5 @@ INSERT INTO `magic`.`decks` (format, name, cards) VALUES (
 );
 
 CREATE USER 'magicdb'@'%' IDENTIFIED BY 'magic1234';
-GRANT ALL PRIVILEGES ON *.* TO 'magicdb'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON magic.* TO 'magicdb'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
