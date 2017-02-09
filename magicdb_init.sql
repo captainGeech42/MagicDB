@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`cards` (
 	`name`      VARCHAR(50)                                        NOT NULL,
 	`mana`      VARCHAR(15)                                        NOT NULL,
 	`typeline`	VARCHAR(50)                                        NOT NULL,
-	`set`		VARCHAR(10)                                        NOT NULL
+	`set_name`		VARCHAR(10)                                        NOT NULL
 	COMMENT 'abbreviated set (i.e. innistrad->isd)',
 	`set_number` INT(3)                                            NOT NULL
 	COMMENT 'card number in the set',
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`decks` (
 -- the next set of queries are for test data population, remove these lines and reinstantiate
 -- the database once testing has concluded and real data is being added to the database
 
-INSERT INTO `magic`.`cards` (name, mana, typeline, set, set_number, rarity, text, image, foil) VALUES (
+INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity, text, image, foil) VALUES (
 	'Gallows Warden',
 	'4W',
 	'Creature -- Spirit',
@@ -47,7 +47,7 @@ INSERT INTO `magic`.`cards` (name, mana, typeline, set, set_number, rarity, text
 	'no'
 );
 
-INSERT INTO `magic`.`cards` (name, mana, typeline, set, set_number, rarity, text, image, foil) VALUES (
+INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity, text, image, foil) VALUES (
 
 );
 
