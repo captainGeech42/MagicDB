@@ -1,5 +1,5 @@
-dbpass.txt
 .idea
 .vagrant
 vagrantconfig.rb
 config.db.php
+src/vendor
