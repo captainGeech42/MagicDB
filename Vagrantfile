@@ -40,5 +40,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     rm /home/vagrant/magicdb_init.sql
     sed -i '/bind-address/c\#bind-address=127.0.0.1 /etc/mysql/my.cnf
+    service mysql restart
   SHELL
 end
