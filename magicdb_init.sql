@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`cards` (
 	`name`      VARCHAR(50)                                        NOT NULL,
 	`mana`      VARCHAR(15)                                        NOT NULL,
 	`typeline`	VARCHAR(50)                                        NOT NULL,
-	`set_name`		VARCHAR(10)                                        NOT NULL
+	`set_name`	VARCHAR(10)                                        NOT NULL
 	COMMENT 'abbreviated set (i.e. innistrad->isd)',
 	`set_number` INT(3)                                            NOT NULL
 	COMMENT 'card number in the set',
