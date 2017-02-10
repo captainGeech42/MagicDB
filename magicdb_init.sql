@@ -32,8 +32,18 @@ CREATE TABLE IF NOT EXISTS `magic`.`decks` (
 )
 	ENGINE = INNODB;
 
+CREATE TABLE IF NOT EXISTS `magic`.`sets` (
+	`id`			INT(11)		NOT NULL AUTO_INCREMENT,
+	`timestamp` 	TIMESTAMP	NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`abbreviation` 	VARCHAR(3)	NOT NULL,
+	`name`			VARCHAR(50)	NOT NULL,
+	PRIMARY KEY (`id`)
+)
+	ENGINE = INNODB;
+
 -- the next set of queries are for test data population, remove these lines and reinstantiate
 -- the database once testing has concluded and real data is being added to the database
+-- DO NOT REMOVE ANY INSERTS TO `magic`.`sets`; THESE ARE NOT PLACEHOLDER VALUES
 
 INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity, text, image, foil) VALUES (
 	'Gallows Warden',
@@ -69,6 +79,217 @@ INSERT INTO `magic`.`decks` (format, name, cards) VALUES (
 	'commander',
 	'intentionally illegal commander deck',
 	'1,2'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'10e',
+	'Core Set Tenth Edition'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'lw',
+	'Lorwyn'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'mt',
+	'Morningtide'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'shm',
+	'Shadowmoor'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'eve',
+	'Eventide'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'ala',
+	'Shards of Alara'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'cfx',
+	'Conflux'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'arb',
+	'Alara Reborn'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm10',
+	'Magic 2010 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'zen',
+	'Zendikar'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'wwk',
+	'Worldwake'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'roe',
+	'Rise of the Eldrazi'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm11',
+	'Magic 2011 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'som',
+	'Scars of Mirrodin'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'mbs',
+	'Mirrodin Besieged'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'nph',
+	'New Phyrexia'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm12',
+	'Magic 2012 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'isd',
+	'Innistrad'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'dka',
+	'Dark Ascension'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'avr',
+	'Avacyn Restored'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm13',
+	'Magic 2013 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'rtr',
+	'Return to Ravnica'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'gtc',
+	'Gatecrash'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'dgm',
+	'Dragon''s Maze'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm14',
+	'Magic 2014 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'ths',
+	'Theros'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'bng',
+	'Born of the Gods'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'jou',
+	'Journey into Nyx'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'm15',
+	'Magic 2015 Core Set'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'ktk',
+	'Khans of Tarkir'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'frf',
+	'Fate Reforged'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'dtk',
+	'Dragons of Tarkir'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'ori',
+	'Magic Origins'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'bfz',
+	'Battle for Zendikar'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'ogw',
+	'Oath of the Gatewatch'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'soi',
+	'Shadows over Innistrad'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'emn',
+	'Eldritch Moon'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'cn2',
+	'Conspiracy: Take the Crown'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'kld',
+	'Kaladesh'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'c16',
+	'Commander (2016 Edition)'
+);
+
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'pca',
+	'Planechase Anthology'
+);
+
+INSERT INTO `magic`.`sets` (abbreviation, name) VALUES (
+	'aer',
+	'Aether Revolt'
 );
 
 CREATE USER 'magicdb'@'%' IDENTIFIED BY 'magic1234';
