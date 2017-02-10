@@ -38,5 +38,6 @@
 <h4>Important Notes</h4>
 <ul>
 	<li>Artifact Creatures should be entered as Creatures</li>
-	<li>Basic Lands and Lands should be entered as Lands</li>
+	<li>Basic Lands should be entered as Lands</li>
+	<li>Not sure what set the card is in? Check <a href="setglossary.php" target="_blank">this glossary</a>!</li>
 </ul>

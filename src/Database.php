@@ -34,7 +34,7 @@ class Database {
 	}
 
 	public static function getCard($id) {
-		$stmt = self::runSql('SELECT name, mana, rarity, in_deck, image, text FROM cards WHERE id = ?', [$id]);
+		$stmt = self::runSql('SELECT name, mana, rarity, in_deck, image, text FROM cards WHERE id = ?;', [$id]);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -44,7 +44,17 @@ class Database {
 	}
 
 	public static function getDeck($id) {
-		$stmt = self::runSql('SELECT format, name, cards FROM decks WHERE id = ?', [$id]);
+		$stmt = self::runSql('SELECT format, name, cards FROM decks WHERE id = ?;', [$id]);
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public static function getSets() {
+		$stmt = self::runSql('SELECT abbreviation, name FROM sets ORDER BY name;');
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public static function getSet($id) {
+		$stmt = self::runSql('SELECT abbreviation, name FROM sets WHERE id = ?;', [$id]);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
