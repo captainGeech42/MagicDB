@@ -4,7 +4,7 @@
  */
 
 require_once('config.db.php');
-require_once('CardScraper.php');
+require_once('CardResources.php');
 
 class Database {
 	private static $instance = null;
@@ -37,9 +37,12 @@ class Database {
 	public static function getCardsHTML() {
 		$cards = self::getCards();
 		foreach ($cards as &$card) {
-			foreach (CardScraper::$colors as $color) {
-				$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
-				$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
+			foreach (CardResources::$colors as $color) {
+				$card['mana'] = str_replace("{" . $color . "}", CardResources::getManaImg($color), $card['mana']);
+				$card['cardtext'] = str_replace("{" . $color . "}", CardResources::getManaImg($color), $card['cardtext']);
+			}
+			foreach (CardResources::$symbols as $symbol) {
+				$card['cardtext'] = str_replace("{" . $symbol . "}", CardResources::getSymbolImg($symbol), $card['cardtext']);
 			}
 		}
 		return $cards;
@@ -52,10 +55,10 @@ class Database {
 
 	public static function getCardHTML($id) {
 		$card = self::getCard($id);
-		foreach (CardScraper::$colors as $color) {
+		foreach (CardResources::$colors as $color) {
 			echo 'replacing ' . $color . '<br>';
-			$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
-			$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
+			$card['mana'] = str_replace("{" . $color . "}", CardResources::getManaImg($color), $card['mana']);
+			$card['cardtext'] = str_replace("{" . $color . "}", CardResources::getManaImg($color), $card['cardtext']);
 		}
 		return $card;
 	}

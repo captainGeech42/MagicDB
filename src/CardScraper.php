@@ -4,6 +4,8 @@
  * Created by Zander Work on 2/7/2017 11:29 PM.
  */
 
+require_once('CardResources.php');
+
 //define('CARDTYPE_BASIC_LAND', 0); basic lands are parsed the same as lands, no need to differentiate them b/c they are similar
 define('CARDTYPE_LAND', 1);
 define('CARDTYPE_CREATURE', 2);
@@ -31,8 +33,6 @@ class CardScraper {
 	private $setName; //ISD
 	private $cardType; //corresponding integer to type of card (see top of file)
 
-	public static $colors = ['B', 'C', 'G', 'R', 'U', 'W', 'X', '1', '2', '3', '4'];
-
 	public function __construct($number, $set, $cardType) {
 		$this->number = $number;
 		$this->setName = $set;
@@ -58,22 +58,6 @@ class CardScraper {
 				'cardType' => $this->cardType];
 	}
 
-	public function getCardInfoHTML() {
-		$card = ['name' => $this->name,
-				 'typeline' => $this->typeline,
-				 'mana' => $this->mana,
-				 'pt' => $this->pt,
-				 'cardtext' => $this->cardText,
-				 'number' => $this->number,
-				 'setName' => $this->setName,
-				 'cardType' => $this->cardType];
-		foreach (self::$colors as $color) {
-			$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height="15px">', $card['mana']);
-			$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height="15px">', $card['cardtext']);
-		}
-		return $card;
-	}
-
 	private function getHTML($url) {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -82,7 +66,6 @@ class CardScraper {
 		$htmlData = curl_exec($curl);
 
 		if ($htmlData) {
-//			echo 'got valid HTML data from curl<br>';
 			return $htmlData;
 		} else {
 			echo 'got invalid HTML data from curl<br>';
@@ -90,7 +73,7 @@ class CardScraper {
 		}
 	}
 
-	public function scrapCardInfo() {
+	public function scrapCardInfo($insertHTML = true) {
 		$html = $this->getHTML($this->getCardInfoURL());
 		$domDocument = new DOMDocument();
 
@@ -136,6 +119,13 @@ class CardScraper {
 								$this->mana .= '{' . $char . '}';
 							}
 
+							//put mana imgs in
+							if ($insertHTML) {
+								foreach (CardResources::$colors as $color) {
+									$this->mana = str_replace("{" . $color . "}", CardResources::getManaImg($color), $this->mana);
+								}
+							}
+
 							if (strpos($infoComboLineCommaSplit[0], '*') !== false) {
 								//card has indefinite p/t, so we know the length of p/t
 								$this->pt = '*/*';
@@ -153,6 +143,16 @@ class CardScraper {
 							$this->typeline = str_replace('—',  '--', $this->typeline);
 
 							$ctextNode = $domXpath->query('p[@class="ctext"]', $td->item(0))->item(0)->nodeValue;
+
+							//put mana/symbol imgs in
+							if ($insertHTML) {
+								foreach (CardResources::$colors as $color) {
+									$ctextNode = str_replace("{" . $color . "}", CardResources::getManaImg($color), $ctextNode);
+								}
+								foreach (CardResources::$symbols as $symbol) {
+									$ctextNode = str_replace("{" . $symbol . "}", CardResources::getSymbolImg($symbol), $ctextNode);
+								}
+							}
 
 							//split on space
 							//foreach, split on ''
@@ -186,8 +186,11 @@ class CardScraper {
 										}
 										$capitalCounter = 0;
 									}
-									if (strcmp($previousChar, '.') === 0 && strcmp($char, ')') !== 0) {
+									if ((strcmp($previousChar, '.') === 0 && strcmp($char, ')') !== 0) ||
+										(strcmp($previousChar, ')') === 0) &&
+										!(in_array($previousChar, CardResources::$colors) || in_array($previousChar, CardResources::$symbols))) {
 										//we hit the end of a sentence. it is most likely now a new line (unless the next character is a close paren
+										//or a mana/icon symbol, b/c we don't want to break our inserted img tags
 										$ctextsplit[$ctextarraycounter] = substr_replace($word, '<br><br>', $offset, 0);
 
 										//TODO period inside a parenthese suoldn't trigger a new line.

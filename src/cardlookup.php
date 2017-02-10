@@ -10,8 +10,8 @@ require_once('CardScraper.php');
 if (isset($_GET['id']) && isset($_GET['set']) && isset($_GET['type'])) {
 	$cardScraper = new CardScraper($_GET['id'], $_GET['set'], $_GET['type']);
 	$image = $cardScraper->getCardImageURL();
-	$cardScraper->scrapCardInfo();
-	$info = $cardScraper->getCardInfoHTML();
+	$cardScraper->scrapCardInfo(true);
+	$info = $cardScraper->getCardInfo();
 
 	echo \PlatesController::renderTemplate('cardlookup', ['image' => $image, 'cardInfo' => $info]);
 } else {
