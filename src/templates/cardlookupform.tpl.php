@@ -15,6 +15,19 @@
 			<td><select name="type">
 					<option value="1">Land</option>
 					<option value="2">Creature</option>
+					<option value="3">Artifact</option>
+					<option value="4">Enchantment</option>
+					<option value="5">Planeswalker</option>
+					<option value="6">Instant</option>
+					<option value="7">Sorcery</option>
+					<option value="8">Token</option>
+					<option>--------------</option>
+					<option value="9">Phenomenon</option>
+					<option value="10">Plane</option>
+					<option value="11">Scheme</option>
+					<option value="12">Tribal</option>
+					<option value="13">Vanguard</option>
+					<option value="14">Conspiracy</option>
 				</select></td>
 		</tr>
 		<tr>
@@ -22,8 +35,6 @@
 		</tr>
 	</table>
 </form>
-<br>
-<br>
 <h4>Important Notes</h4>
 <ul>
 	<li>Artifact Creatures should be entered as Creatures</li>
