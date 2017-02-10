@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `magic`.`sets` (
 INSERT INTO `magic`.`cards` (type, name, mana, typeline, set_abbr, set_number, pt, rarity, text, image, foil) VALUES (
 	'creature',
 	'Gallows Warden',
-	'4W',
+	'{4}{W}',
 	'Creature -- Spirit',
 	'isd',
 	16,
@@ -66,7 +66,7 @@ INSERT INTO `magic`.`cards` (type, name, mana, typeline, set_abbr, set_number, p
 INSERT INTO `magic`.`cards` (type, name, mana, typeline, set_abbr, set_number, pt, rarity, text, image, foil) VALUES (
 	'creature',
 	'Geist-Honored Monk',
-	'3WW',
+	'{3}{W}{W}',
 	'Creature -- Human Monk',
 	'isd',
 	17,

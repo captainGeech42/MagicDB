@@ -6,7 +6,7 @@
 require_once('Database.php');
 require_once('PlatesController.php');
 
-$cards = Database::getCards();
+$cards = Database::getCardsHTML();
 
 echo PlatesController::renderTemplate('viewcards', ['cards' => $cards]);
 ?>

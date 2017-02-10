@@ -1,7 +1,6 @@
 <?php $this->layout('pageLayout', ['title' => 'MagicDB | Home']) ?>
 
 <h1>Welcome to the MagicDB</h1>
-<p>
 	<h3>Actions:</h3>
 	<ul>
 		<li><a href="viewcards.php">View All Cards</a></li>
@@ -11,4 +10,3 @@
 		<li><a href="cardlookup.php">Lookup a card on MagicInfo</a></li>
 		<li><a href="setglossary.php">Lookup a set icon</a></li>
 	</ul>
-</p>

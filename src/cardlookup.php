@@ -11,7 +11,7 @@ if (isset($_GET['id']) && isset($_GET['set']) && isset($_GET['type'])) {
 	$cardScraper = new CardScraper($_GET['id'], $_GET['set'], $_GET['type']);
 	$image = $cardScraper->getCardImageURL();
 	$cardScraper->scrapCardInfo();
-	$info = $cardScraper->getCardInfo();
+	$info = $cardScraper->getCardInfoHTML();
 
 	echo \PlatesController::renderTemplate('cardlookup', ['image' => $image, 'cardInfo' => $info]);
 } else {

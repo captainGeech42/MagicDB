@@ -24,12 +24,14 @@ class CardScraper {
 
 	private $name; //Geist-Honored Monk
 	private $typeline; //Creature -- Human Monk
-	private $mana; //3WW
+	private $mana = ''; //3WW
 	private $pt; //*/* or 5/3 or (maybe) 15/100
 	private $cardText = ''; //Lots of long text
 	private $number; //17 (in xxx/yyy on bottom of a card, this is the xxx)
 	private $setName; //ISD
 	private $cardType; //corresponding integer to type of card (see top of file)
+
+	public static $colors = ['B', 'C', 'G', 'R', 'U', 'W', 'X', '1', '2', '3', '4'];
 
 	public function __construct($number, $set, $cardType) {
 		$this->number = $number;
@@ -54,6 +56,22 @@ class CardScraper {
 				'number' => $this->number,
 				'setName' => $this->setName,
 				'cardType' => $this->cardType];
+	}
+
+	public function getCardInfoHTML() {
+		$card = ['name' => $this->name,
+				 'typeline' => $this->typeline,
+				 'mana' => $this->mana,
+				 'pt' => $this->pt,
+				 'cardtext' => $this->cardText,
+				 'number' => $this->number,
+				 'setName' => $this->setName,
+				 'cardType' => $this->cardType];
+		foreach (self::$colors as $color) {
+			$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height="15px">', $card['mana']);
+			$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height="15px">', $card['cardtext']);
+		}
+		return $card;
 	}
 
 	private function getHTML($url) {
@@ -113,7 +131,10 @@ class CardScraper {
 							//[0]=Creature — Human Monk */*
 							//[1]=3WW (5)
 
-							$this->mana = explode(' ', trim($infoComboLineCommaSplit[1]))[0];
+							$mana = str_split(explode(' ', trim($infoComboLineCommaSplit[1]))[0]);
+							foreach ($mana as $char) {
+								$this->mana .= '{' . $char . '}';
+							}
 
 							if (strpos($infoComboLineCommaSplit[0], '*') !== false) {
 								//card has indefinite p/t, so we know the length of p/t
@@ -189,7 +210,7 @@ class CardScraper {
 							}
 						}
 						else if ($this->cardType == CARDTYPE_ARTIFACT) {
-							
+
 						} else {
 							echo 'card type not supported yet...';
 						}

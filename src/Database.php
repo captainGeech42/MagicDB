@@ -4,6 +4,7 @@
  */
 
 require_once('config.db.php');
+require_once('CardScraper.php');
 
 class Database {
 	private static $instance = null;
@@ -33,9 +34,34 @@ class Database {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public static function getCardsHTML() {
+		$cards = self::getCards();
+		$cards2 = self::getCards();
+		$counter = 0;
+		foreach ($cards as $card) {
+			foreach (CardScraper::$colors as $color) {
+				$cards2[$counter]['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
+				$cards2[$counter]['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
+				echo 'replaced ' . $color . ' in ' . $cards2[$counter]['mana'] . '<br>';
+			}
+			$counter++;
+		}
+		return $cards2;
+	}
+
 	public static function getCard($id) {
 		$stmt = self::runSql('SELECT name, mana, typeline, set_abbr, rarity, text, image, foil FROM cards WHERE id = ?;', [$id]);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public static function getCardHTML($id) {
+		$card = self::getCard($id);
+		foreach (CardScraper::$colors as $color) {
+			echo 'replacing ' . $color . '<br>';
+			$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
+			$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
+		}
+		return $card;
 	}
 
 	public static function getDecks() {
