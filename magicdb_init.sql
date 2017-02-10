@@ -1,22 +1,26 @@
 CREATE DATABASE IF NOT EXISTS `magic`;
 
 CREATE TABLE IF NOT EXISTS `magic`.`cards` (
-	`id`        INT(11)                                            NOT NULL AUTO_INCREMENT,
-	`timestamp` TIMESTAMP                                          NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`name`      VARCHAR(50)                                        NOT NULL,
-	`mana`      VARCHAR(15)                                        NOT NULL,
-	`typeline`	VARCHAR(50)                                        NOT NULL,
-	`set_name`	VARCHAR(10)                                        NOT NULL
+	`id`        INT(11)                                             NOT NULL AUTO_INCREMENT,
+	`timestamp` TIMESTAMP                                           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`type`		ENUM ('land', 'creature', 'artifact', 'enchantment', 'planeswalker',
+					  'instant', 'sorcery', 'token', 'phenomenon', 'plane',
+					  'scheme', 'tribal', 'vanguard', 'conspiracy') NOT NULL,
+	`name`      VARCHAR(50)                                         NOT NULL,
+	`mana`      VARCHAR(15)                                         NOT NULL,
+	`typeline`	VARCHAR(50)                                         NOT NULL,
+	`set_abbr`	VARCHAR(10)                                         NOT NULL
 	COMMENT 'abbreviated set (i.e. innistrad->isd)',
-	`set_number` INT(3)                                            NOT NULL
+	`set_number` INT(3)                                             NOT NULL
 	COMMENT 'card number in the set',
-	`rarity`    ENUM ('common', 'uncommon', 'rare', 'mythic_rare') NOT NULL,
-	`text`      VARCHAR(500)                                       NOT NULL
+	`pt`		VARCHAR(10)                                         NOT NULL,
+	`rarity`    ENUM ('common', 'uncommon', 'rare', 'mythic_rare')  NOT NULL,
+	`text`      VARCHAR(500)                                        NOT NULL
 	COMMENT 'card text, two escaped <br> tags between lines',
-	`image`     VARCHAR(200)                                       NOT NULL
+	`image`     VARCHAR(200)                                        NOT NULL
 	COMMENT 'full url to magicinfo card image',
-	`in_deck`   ENUM ('yes', 'no')                                 NOT NULL DEFAULT 'no',
-	`foil`		ENUM ('yes', 'no')                                 NOT NULL DEFAULT 'no',
+	`in_deck`   ENUM ('yes', 'no')                                  NOT NULL DEFAULT 'no',
+	`foil`		ENUM ('yes', 'no')                                  NOT NULL DEFAULT 'no',
 	PRIMARY KEY (`id`)
 )
 	ENGINE = INNODB;
@@ -45,24 +49,28 @@ CREATE TABLE IF NOT EXISTS `magic`.`sets` (
 -- the database once testing has concluded and real data is being added to the database
 -- DO NOT REMOVE ANY INSERTS TO `magic`.`sets`; THESE ARE NOT PLACEHOLDER VALUES
 
-INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity, text, image, foil) VALUES (
+INSERT INTO `magic`.`cards` (type, name, mana, typeline, set_abbr, set_number, pt, rarity, text, image, foil) VALUES (
+	'creature',
 	'Gallows Warden',
 	'4W',
 	'Creature -- Spirit',
 	'isd',
 	16,
+	'3/3',
 	'uncommon',
 	'Flying <br><br>Other Spirit creatures you control get +0/+1.',
 	'http://magiccards.info/scans/en/isd/16.jpg',
 	'no'
 );
 
-INSERT INTO `magic`.`cards` (name, mana, typeline, set_name, set_number, rarity, text, image, foil) VALUES (
+INSERT INTO `magic`.`cards` (type, name, mana, typeline, set_abbr, set_number, pt, rarity, text, image, foil) VALUES (
+	'creature',
 	'Geist-Honored Monk',
 	'3WW',
 	'Creature -- Human Monk',
 	'isd',
 	17,
+	'*/*',
 	'rare',
 	'Vigilance <br><br>Geist-Honored Monk''s power and toughness are each equal to the number of creatures you control. <br><br>When Geist-Honored Monk enters the battlefield, put two 1/1 white Spirit creature tokens with flying onto the battlefield.',
 	'http://magiccards.info/scans/en/isd/17.jpg',

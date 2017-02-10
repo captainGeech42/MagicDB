@@ -14,7 +14,7 @@ class Database {
 	private function __clone() {
 	}
 
-	public static function getInstance() {
+	private static function getInstance() {
 		if (self::$instance === null) {
 			$dsn = sprintf('mysql:host=%s;port=%s;dbname=%s', DB_HOST, DB_PORT, DB_NAME);
 			self::$instance = new PDO($dsn, DB_USER, DB_PASS);
@@ -29,12 +29,12 @@ class Database {
 	}
 
 	public static function getCards() {
-		$stmt = self::runSql('SELECT name, mana, rarity, in_deck, image, text FROM cards;');
+		$stmt = self::runSql('SELECT name, mana, typeline, set_abbr, rarity, text, image, foil FROM cards;');
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public static function getCard($id) {
-		$stmt = self::runSql('SELECT name, mana, rarity, in_deck, image, text FROM cards WHERE id = ?;', [$id]);
+		$stmt = self::runSql('SELECT name, mana, typeline, set_abbr, rarity, text, image, foil FROM cards WHERE id = ?;', [$id]);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -58,8 +58,14 @@ class Database {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public static function addCard($name, $mana, $rarity, $image, $text) {
-		self::runSql('INSERT INTO cards (name, mana, rarity, image, text) VALUES (?, ?, ?, ?, ?)',
-					 [$name, $mana, $rarity, $image, $text]);
+	//TODO overload this to take an assoc array of card data (CardScraper::getCardInfo())
+	public static function addCard($name, $mana, $typeline, $set_name, $rarity, $text, $image, $foil) {
+		self::runSql('INSERT INTO cards (name, mana, rarity, image, text, typeline, set_name, foil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+					 [$name, $mana, $rarity, $image, $text, $typeline, $set_name, $foil]);
+	}
+
+	public static function addCardFromArray($cardData) {
+		self::addCard($cardData['name'], $cardData['mana'], $cardData['typeline'], $cardData['setName'],
+				$cardData['rarity'], $cardData['text'], $cardData['image'], $cardData['foil']);
 	}
 }
