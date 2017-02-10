@@ -8,7 +8,17 @@ define('CARDTYPE_BASIC_LAND', 0);
 define('CARDTYPE_LAND', 1);
 define('CARDTYPE_CREATURE', 2);
 define('CARDTYPE_ARTIFACT', 3);
-//TODO add more card types
+define('CARDTYPE_ENCHANTMENT', 4);
+define('CARDTYPE_PLANESWALKER', 5);
+define('CARDTYPE_INSTANT', 6);
+define('CARDTYPE_SORCERY', 7);
+define('CARDTYPE_TOKEN', 8);
+define('CARDTYPE_PHENOMENON', 9);
+define('CARDTYPE_PLANE', 10);
+define('CARDTYPE_SCHEME', 11);
+define('CARDTYPE_TRIBAL', 12);
+define('CARDTYPE_VANGUARD', 13);
+define('CARDTYPE_CONSPIRACY', 14);
 
 class CardScraper {
 
@@ -103,7 +113,7 @@ class CardScraper {
 								$infoComboLine = $infoComboLineNodeList->item(0)->nodeValue;
 
 								$infoComboLineCommaSplit = explode(',', $infoComboLine);
-								//[0] is name and p/t, [1] is mana and a (seemingly) random number in parantheses that we don't care about
+								//[0] is name and p/t, [1] is colored mana representation and total mana in parantheses that we don't care about
 								//[0]=Creature — Human Monk */*
 								//[1]=3WW (5)
 
@@ -175,6 +185,11 @@ class CardScraper {
 								//recombine the card text
 								foreach ($ctextsplit as $word) {
 									$this->cardText .= $word . ' ';
+								}
+
+								//check if we have an empty card text
+								if (strcmp($this->cardText, ' ') === 0) {
+									$this->cardText = '[no cardtext]';
 								}
 								break;
 							case CARDTYPE_ARTIFACT:
