@@ -7,8 +7,8 @@ require_once('Database.php');
 require_once('PlatesController.php');
 require_once('CardScraper.php');
 
-if (isset($_GET['id']) && isset($_GET['set'])) {
-	$cardScraper = new CardScraper($_GET['id'], $_GET['set'], CARDTYPE_CREATURE);
+if (isset($_GET['id']) && isset($_GET['set']) && isset($_GET['type'])) {
+	$cardScraper = new CardScraper($_GET['id'], $_GET['set'], $_GET['type']);
 	$image = $cardScraper->getCardImageURL();
 	$cardScraper->scrapCardInfo();
 	$info = $cardScraper->getCardInfo();

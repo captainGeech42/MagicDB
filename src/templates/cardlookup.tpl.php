@@ -1,8 +1,8 @@
 <?php $this->layout('pageLayout', ['title' => 'MagicDB | Card Lookup']) ?>
 
-<img src="<?=$image?>"><br>
+<img src="<?=$image?>"><br><br>
 
-<table>
+<table cellspacing="5" border="4">
 	<?php foreach($cardInfo as $key => $value): ?>
 		<tr>
 			<td><?=$key?></td>
