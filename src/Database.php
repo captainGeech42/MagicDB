@@ -36,16 +36,13 @@ class Database {
 
 	public static function getCardsHTML() {
 		$cards = self::getCards();
-		$counter = 0;
-		foreach ($cards as $card) {
+		foreach ($cards as &$card) {
 			foreach (CardScraper::$colors as $color) {
-				//TODO this isn't working right, array changes aren't sticking through the end of the exterior for loop
-				$cards[$counter]['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
-				$cards[$counter]['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
-				echo 'replaced ' . $color . ' in ' . $cards[$counter]['mana'] . '<br>';
+				$card['mana'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['mana']);
+				$card['cardtext'] = str_replace("{" . $color . "}", '<img src="img/mana_icon/' . $color . '.svg" height=15px>', $card['cardtext']);
 			}
-			$counter++;
 		}
+		return $cards;
 	}
 
 	public static function getCard($id) {
